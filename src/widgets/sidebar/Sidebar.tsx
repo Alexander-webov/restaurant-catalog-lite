@@ -11,7 +11,7 @@ import { NavLink } from "react-router-dom";
 const Sidebar = () => {
   return (
     <nav>
-      <ul className="main-menu text-white bg-slate-950  py-12 h-5/6 max-w-40 text-center rounded-3xl flex flex-col items-center justify-between">
+      <ul className="main-menu text-white bg-slate-950  py-12 max-h-[860px] h-5/6 max-w-40 text-center rounded-3xl flex flex-col items-center justify-between min-h-96 overflow-x-auto">
         <li className="w-20 flex justify-center">
           <NavLink to="/">
             <img src={Logo} alt="S" />

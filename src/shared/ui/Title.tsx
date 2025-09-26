@@ -4,10 +4,9 @@ type Props = {
 
 const Title = ({ children }: Props) => {
   return (
-    <>
-      <h2 className="uppercase text-5xl mb-2">{children}</h2>
-      <span className="h-1 rounded-2xl w-full bg-[#F1D5BB] block"></span>
-    </>
+    <div className="uppercase text-5xl mb-2 w-full ">
+      <h2 className="">{children}</h2>
+    </div>
   );
 };
 
