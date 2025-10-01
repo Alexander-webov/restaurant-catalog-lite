@@ -1,7 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./pages/home/Home";
+import Home from "./pages/HomePage";
 import AppLayout from "./app/AppLayout";
-import MenuPage from "./pages/menuPage/MenuPage";
+import MenuPage from "./pages/MenuPage";
+import About from "./pages/AboutPage";
+import Cart from "./pages/CartPage";
+import MenuCategoryPage from "./pages/MenuCategoryPage";
 
 const router = createBrowserRouter([
   {
@@ -12,8 +15,20 @@ const router = createBrowserRouter([
     element: <AppLayout />,
     children: [
       {
-        path: "menu",
+        path: "/menu",
         element: <MenuPage />,
+      },
+      {
+        path: "/menu/:slug",
+        element: <MenuCategoryPage />,
+      },
+      {
+        path: "/about",
+        element: <About />,
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
       },
     ],
   },
