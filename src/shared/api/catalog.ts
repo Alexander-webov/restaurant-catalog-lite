@@ -34,7 +34,6 @@ export async function getItemsByCategorySlug(slug: string) {
     .eq("slug", slug);
 
   if (error) throw error;
-  console.log(data);
   return data;
 }
 

@@ -1,8 +1,8 @@
 import { XCircleIcon } from "@heroicons/react/16/solid";
 import fallback from "../../assets/empty.png";
 import type { ItemType } from "../../pages/MenuCategoryPage";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { add, type CartItem } from "./cartSlice";
+import { useAppDispatch } from "../../app/hooks";
+import { add } from "./cartSlice";
 import { useState } from "react";
 
 type modalProps = {
@@ -23,7 +23,7 @@ function ModalWindowForOrder({ setClose, item }: modalProps) {
       price_cents: item.price_cents,
       quantity,
     };
-    console.log(newItem);
+
     dispatch(add(newItem));
     setClose(false);
   }
@@ -59,7 +59,6 @@ function ModalWindowForOrder({ setClose, item }: modalProps) {
         <div className="mx-auto flex gap-3 items-center">
           <button
             className="bg-black text-white px-3 py-2"
-            aria-label
             onClick={increaseQuantity}
           >
             +
@@ -67,7 +66,6 @@ function ModalWindowForOrder({ setClose, item }: modalProps) {
           <span>{quantity}</span>
           <button
             className="bg-black text-white px-3  py-2"
-            aria-label
             onClick={decreaseQuantity}
           >
             -

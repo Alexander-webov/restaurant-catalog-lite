@@ -1,5 +1,4 @@
 import {
-  ArrowRightStartOnRectangleIcon,
   HomeIcon,
   MapPinIcon,
   ShoppingCartIcon,
@@ -7,16 +6,23 @@ import {
 } from "@heroicons/react/16/solid";
 import Logo from "../../assets/S..svg";
 import { NavLink } from "react-router-dom";
+import { useAppDispatch } from "../../app/hooks";
+import { clearAllCart } from "../../features/cart/cartSlice";
 
 const Sidebar = () => {
+  const dispatch = useAppDispatch();
   return (
     <nav>
-      <ul className="main-menu text-white bg-slate-950  py-12 max-h-[860px] h-5/6 max-w-40 text-center rounded-3xl flex flex-col items-center justify-between min-h-96 overflow-x-auto">
+      <ul className="main-menu text-white bg-slate-950  py-12 max-h-[860px] min-h-[500px] h-5/6 max-w-40 text-center rounded-3xl flex flex-col items-center justify-around min-h-96 overflow-x-auto">
         <li className="w-20 flex justify-center">
           <img src={Logo} alt="S" />
         </li>
         <li>
-          <NavLink className="flex justify-center p-2" to="/">
+          <NavLink
+            className="flex justify-center p-2"
+            to="/"
+            onClick={() => dispatch(clearAllCart())}
+          >
             <HomeIcon className="w-14 h-14" />
             <span className="sr-only">Home</span>
           </NavLink>
@@ -37,12 +43,6 @@ const Sidebar = () => {
           <NavLink className="flex justify-center p-2" to="/about">
             <MapPinIcon className="w-14 h-14" />
             <span className="sr-only">about</span>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink className="flex justify-center p-2" to="/">
-            <ArrowRightStartOnRectangleIcon className="w-14 h-14" />
-            <span className="sr-only">Home</span>
           </NavLink>
         </li>
       </ul>
