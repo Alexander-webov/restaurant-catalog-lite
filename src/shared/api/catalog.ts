@@ -1,4 +1,4 @@
-import type { Category } from "../../entities/category/types";
+import type { CategoryType } from "../../entities/category/types";
 import { createClient } from "@supabase/supabase-js";
 import type { Item } from "../../entities/item/types";
 
@@ -11,8 +11,8 @@ const supabase = createClient(url, api);
 export default supabase;
 
 // ---- categories
-/* Category - type Category = { id: number; name: string; slug: string; sort: number }; better save in oter file */
-export async function getCategoriesTable(): Promise<Category[]> {
+
+export async function getCategoriesTable(): Promise<CategoryType[]> {
   const { data, error } = await supabase.from("categories").select("*");
   if (error) throw error;
   return data ?? [];

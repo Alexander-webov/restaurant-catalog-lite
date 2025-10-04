@@ -8,7 +8,6 @@ import {
 } from "../../features/cart/cartSlice";
 import { fromCentsToDollars } from "../../shared/lib/money";
 import { XMarkIcon } from "@heroicons/react/16/solid";
-import { Link } from "react-router-dom";
 import GoToMenu from "../../shared/ui/GoToMenu";
 const Cart = () => {
   const { cart } = useAppSelector((state) => state.cart);

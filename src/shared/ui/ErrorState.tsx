@@ -1,4 +1,3 @@
-// src/shared/ui/ErrorState.tsx
 import { ExclamationTriangleIcon } from "@heroicons/react/16/solid";
 
 type ErrorStateProps = {

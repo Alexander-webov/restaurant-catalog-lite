@@ -1,11 +1,7 @@
-import React from "react";
 import Title from "../../shared/ui/Title";
-import { Link } from "react-router-dom";
 import GoToMenu from "../../shared/ui/GoToMenu";
 
-type Props = {};
-
-const About = (props: Props) => {
+const About = () => {
   return (
     <div>
       <Title>About Us</Title>
