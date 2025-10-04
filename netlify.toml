@@ -1,0 +1,12 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  # Эти переменные уже заданы в Netlify UI как реальные значения.
+  # Здесь мы настраиваем поведение сканера секретов.
+  SECRETS_SCAN_OMIT_KEYS = "VITE_SUPABASE_URL,VITE_SUPABASE_ANON_KEY"
+  # (опционально) можно исключить артефакты сборки, если хочешь:
+  SECRETS_SCAN_OMIT_PATHS = "dist/**"
+  # (крайняя мера) полностью отключить сканер:
+  # SECRETS_SCAN_ENABLED = "false"
