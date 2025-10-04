@@ -9,6 +9,7 @@ import {
 import { fromCentsToDollars } from "../../shared/lib/money";
 import { XMarkIcon } from "@heroicons/react/16/solid";
 import { Link } from "react-router-dom";
+import GoToMenu from "../../shared/ui/GoToMenu";
 const Cart = () => {
   const { cart } = useAppSelector((state) => state.cart);
 
@@ -103,9 +104,7 @@ const Cart = () => {
         <div className=" text-center mt-20 font-bold text-3xl w-full">
           cart is empty
           <div className="mt-10">
-            <Link className="bg-black text-white px-10  py-5" to="/menu">
-              Go to menu
-            </Link>
+            <GoToMenu />
           </div>
         </div>
       )}

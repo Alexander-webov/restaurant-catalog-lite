@@ -15,6 +15,7 @@ const initialState: CartState = {
   cart: [],
 };
 const clamp = (n: number, min = 1, max = 99) => Math.max(min, Math.min(max, n));
+
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
