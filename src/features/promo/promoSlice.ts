@@ -5,6 +5,7 @@ export type promoType = {
   value: number;
   applied: boolean;
   error: null | string;
+  appliedCode: string | null;
 };
 
 const initialState: promoType = {
@@ -12,6 +13,7 @@ const initialState: promoType = {
   value: 500,
   applied: false,
   error: null,
+  appliedCode: null,
 };
 
 export const promoSlice = createSlice({
@@ -20,7 +22,11 @@ export const promoSlice = createSlice({
   reducers: {
     applyCode: (state, action: PayloadAction<{ code: string }>) => {
       const cleanUserCode = action.payload.code.trim().toLowerCase();
-      if (!action.payload.code) return;
+      if (!cleanUserCode) {
+        state.applied = false;
+        state.error = "enter code";
+        return;
+      }
       if (state.codeWord !== cleanUserCode) {
         state.error = "unavailable code";
         state.applied = false;
@@ -32,3 +38,7 @@ export const promoSlice = createSlice({
     },
   },
 });
+
+export const { applyCode } = promoSlice.actions;
+
+export default promoSlice.reducer;

@@ -9,17 +9,42 @@ import {
 import { fromCentsToDollars } from "../../shared/lib/money";
 import { XMarkIcon } from "@heroicons/react/16/solid";
 import GoToMenu from "../../shared/ui/GoToMenu";
+import {
+  selectDiscountCents,
+  selectSubtotalCents,
+  selectTaxCents,
+  selectTotalCents,
+} from "../../features/cart/cart.selectors";
+import { useEffect, useState } from "react";
+import { applyCode } from "../../features/promo/promoSlice";
+import { CONVENIENCE_FEE_CENTS } from "../../features/cart/cart.constans";
+import { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 const Cart = () => {
+  const [promoInputValue, setPromoInputValue] = useState("sushi");
   const { cart } = useAppSelector((state) => state.cart);
+  const { promo } = useAppSelector((state) => state);
+  console.log(promo);
 
-  const totalPriceItems = cart.reduce(
-    (acc, el) => acc + el.price_cents * el.quantity,
-    0
-  );
-  const tax = (totalPriceItems * 8.82) / 100;
-  const convenienceFee = 100;
-  const totalPrice = totalPriceItems + tax + convenienceFee;
   const dispatch = useAppDispatch();
+
+  const totalPriceItems = useAppSelector(selectSubtotalCents);
+  const discountCents = useAppSelector(selectDiscountCents);
+  const tax = useAppSelector(selectTaxCents);
+  const convenienceFee = CONVENIENCE_FEE_CENTS;
+
+  const totalPrice = useAppSelector(selectTotalCents);
+  function handelPromo(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    dispatch(applyCode({ code: promoInputValue }));
+  }
+  useEffect(() => {
+    if (promo.applied) {
+      toast.success(
+        `WOW! You got discount ${fromCentsToDollars(discountCents)}`
+      );
+    }
+  }, [promo.applied, discountCents]);
   return (
     <div className="h-full w-[1140px]">
       <Title>CART</Title>
@@ -27,7 +52,10 @@ const Cart = () => {
         <div className="flex gap-5">
           <div className="max-h-[600px] overflow-x-auto">
             {cart.map((item) => (
-              <div className="w-[610px] bg-[#F1D5BB]  px-5 py-6  flex justify-between items-center text-xl">
+              <div
+                key={item.id}
+                className="w-[610px] bg-[#F1D5BB]  px-5 py-6  flex justify-between items-center text-xl"
+              >
                 <div className="flex items-center w-[310px]">
                   <img
                     className="rounded-full w-24 h-24 object-cover"
@@ -86,16 +114,25 @@ const Cart = () => {
             </div>
             <div className="border-2 border-[#F1D5BB] p-5 w-[330px] mt-10">
               <p className="text-3xl mt-5">Promo Code</p>
-              <form>
-                <input
-                  type="text"
-                  placeholder="enter promo code"
-                  className="mt-8 px-3 py-4 w-full border-black border-2"
-                />
-                <button className="mt-8 bg-black text-white px-3  py-5 w-full">
-                  Apply
-                </button>
-              </form>
+              {promo.applied ? (
+                <div className="text-xl mt-2">
+                  Discount <span>-{fromCentsToDollars(discountCents)}</span>{" "}
+                  <span className="text-green-500">APPLIED</span>
+                </div>
+              ) : (
+                <form onSubmit={handelPromo}>
+                  <input
+                    type="text"
+                    placeholder="enter promo code"
+                    defaultValue={promoInputValue}
+                    className="mt-8 px-3 py-4 w-full border-black border-2"
+                    onChange={(e) => setPromoInputValue(e.target.value)}
+                  />
+                  <button className="mt-8 bg-black text-white px-3  py-5 w-full">
+                    Apply
+                  </button>
+                </form>
+              )}
             </div>
           </div>
         </div>
@@ -107,6 +144,7 @@ const Cart = () => {
           </div>
         </div>
       )}
+      <Toaster position="bottom-right" reverseOrder={true} />
     </div>
   );
 };
