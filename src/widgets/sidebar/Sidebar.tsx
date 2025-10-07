@@ -1,9 +1,3 @@
-import {
-  HomeIcon,
-  MapPinIcon,
-  ShoppingCartIcon,
-  SquaresPlusIcon,
-} from "@heroicons/react/16/solid";
 import Logo from "../../assets/S..svg";
 import { NavLink } from "react-router-dom";
 import { useAppDispatch } from "../../app/hooks";

@@ -1,6 +1,6 @@
 import { XCircleIcon } from "@heroicons/react/16/solid";
 import fallback from "../../assets/empty.png";
-import type { ItemType } from "../../pages/MenuCategoryPage/Index";
+import type { ItemType } from "../../pages/MenuCategoryPage";
 import { useAppDispatch } from "../../app/hooks";
 import { add } from "./cartSlice";
 import { useState } from "react";
