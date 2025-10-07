@@ -4,6 +4,7 @@ import AppLayout from "./app/AppLayout";
 import MenuPage from "./pages/MenuPage";
 import About from "./pages/AboutPage";
 import Cart from "./pages/CartPage";
+import HotDeals from "./pages/HotDeals";
 import MenuCategoryPage from "./pages/MenuCategoryPage";
 
 const router = createBrowserRouter([
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "/about",
         element: <About />,
+      },
+      {
+        path: "/hot-deals",
+        element: <HotDeals />,
       },
       {
         path: "/cart",

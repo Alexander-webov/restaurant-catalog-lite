@@ -29,12 +29,20 @@ export const selectTaxCents = createSelector(
   (item) => (item * 8.82) / 100
 );
 export const selectConvenienceFeeCents = () => CONVENIENCE_FEE_CENTS;
+
+export const selectCountProcentDiscount = createSelector(
+  [selectSubtotalCents, selectDiscountCents],
+  //example: (1000 / 100) * (0.25 * 100) = 250 - cents!
+  (subtotal, discount) => (subtotal / 100) * discount * 100
+);
+
 export const selectTotalCents = createSelector(
   [
     selectSubtotalCents,
     selectTaxCents,
     selectConvenienceFeeCents,
-    selectDiscountCents,
+    selectCountProcentDiscount,
   ],
-  (subtotal, tax, fee, discount) => Math.max(0, subtotal - discount + tax + fee)
+  (subtotal, tax, fee, selectCountProcentDiscount) =>
+    Math.max(0, subtotal - selectCountProcentDiscount + tax + fee)
 );

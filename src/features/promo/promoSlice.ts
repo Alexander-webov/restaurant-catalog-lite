@@ -7,10 +7,14 @@ export type promoType = {
   error: null | string;
   appliedCode: string | null;
 };
+export type DiscountType = {
+  discount: number;
+  code: string;
+};
 
 const initialState: promoType = {
-  codeWord: "sushi",
-  value: 500,
+  codeWord: "welcome25",
+  value: 0,
   applied: false,
   error: null,
   appliedCode: null,
@@ -20,25 +24,31 @@ export const promoSlice = createSlice({
   name: "promo",
   initialState,
   reducers: {
-    applyCode: (state, action: PayloadAction<{ code: string }>) => {
+    applyCode: (state, action: PayloadAction<DiscountType>) => {
       const cleanUserCode = action.payload.code.trim().toLowerCase();
       if (!cleanUserCode) {
         state.applied = false;
         state.error = "enter code";
+        state.value = 0;
         return;
       }
       if (state.codeWord !== cleanUserCode) {
         state.error = "unavailable code";
         state.applied = false;
+        state.value = 0;
       }
       if (state.codeWord === cleanUserCode) {
         state.applied = true;
+        state.value = action.payload.discount;
         state.error = null;
       }
+    },
+    getDiscount: (state, action: PayloadAction<{ code: string }>) => {
+      state.codeWord = action.payload.code;
     },
   },
 });
 
-export const { applyCode } = promoSlice.actions;
+export const { applyCode, getDiscount } = promoSlice.actions;
 
 export default promoSlice.reducer;

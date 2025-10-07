@@ -4,7 +4,7 @@ type Props = {
 
 const Title = ({ children }: Props) => {
   return (
-    <div className="uppercase text-5xl mb-2 w-full ">
+    <div className="uppercase text-5xl mb-2">
       <h2 className="">{children}</h2>
     </div>
   );

@@ -9,16 +9,16 @@ type Props = {
 const Category = ({ category }: Props) => {
   return (
     <Link to={`/menu/${category.slug}`}>
-      <div className="w-[275px] h-[300px] cursor-pointer relative bg">
-        <div className="mb-2 w-[250px] h-[250px] mx-auto">
+      <div className="cursor-pointer relative mx-3">
+        <div className="mb-2 w-[224px] h-[275px] mx-auto">
           <img
-            className=""
+            className="h-full w-full object-cover rounded-lg"
             src={category.img === "" ? fallback : category.img}
             alt={category.name}
           />
         </div>
         <div>
-          <h3 className="">{category.name}</h3>
+          <h3 className="font-bold text-xl">{category.name}</h3>
         </div>
       </div>
     </Link>

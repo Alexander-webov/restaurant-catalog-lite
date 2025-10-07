@@ -44,7 +44,7 @@ const Index = () => {
   if (isPending) return <SkeletonView />;
   if (isError) return <h2>Category not found</h2>;
   const items = data ?? [];
-
+  console.log(items);
   return (
     <div className="relative flex flex-col justify-between ">
       <div className="mb-5 flex justify-between items-center">
@@ -64,22 +64,27 @@ const Index = () => {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-5 w-[1140px] flex-1 max-h-[700px] h-full overflow-x-auto">
+      <div className="flex flex-wrap gap-5 max-w-[1140px] flex-1 max-h-[700px] h-full overflow-x-auto px-5">
         {items.map((el) => (
           <div
-            className="cursor-pointer z-1"
+            className="cursor-pointer z-1 w-[224px] mx-3 mb-1"
             key={el.id}
             onClick={() => handelClick(el)}
           >
-            <img
-              className="w-[240px] h-[240px] object-cover "
-              src={el.image === null ? fallback : el.image}
-              alt={el.name}
-            />
-            <div className="flex justify-between mb-5">
-              <h3>{el.name}</h3>
-              <span>{fromCentsToDollars(el.price_cents)}</span>
+            <div className="w-[224px] h-[250px]">
+              <img
+                className="h-full w-full object-cover rounded-lg"
+                src={el.image === null ? fallback : el.image}
+                alt={el.name}
+              />
             </div>
+            <div className="flex justify-between mt-2">
+              <h3 className="font-bold text-xl max-w-[171px]">{el.name}</h3>
+              <span className="text-xl">
+                {fromCentsToDollars(el.price_cents)}
+              </span>
+            </div>
+            <div className="">{el.description}</div>
           </div>
         ))}
       </div>

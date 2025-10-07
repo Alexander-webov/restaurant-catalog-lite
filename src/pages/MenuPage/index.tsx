@@ -46,7 +46,7 @@ const MenuPage = () => {
         </div>
 
         <div
-          className={`flex flex-wrap gap-2 text-center max-h-[600px] ${
+          className={`flex flex-wrap gap-8 text-center max-h-[660px] ${
             !showMore ? "overflow-y-auto" : "overflow-y-hidden"
           } mt-5`}
         >
@@ -56,15 +56,15 @@ const MenuPage = () => {
         </div>
       </div>
       {categories.length < 8
-        ? null
-        : showMore && (
+        ? showMore && (
             <button
               onClick={() => setShowMore(!showMore)}
               className=" mt-5 py-4 px-8 bg-black text-white  block mx-auto"
             >
               show more
             </button>
-          )}
+          )
+        : null}
     </div>
   );
 };

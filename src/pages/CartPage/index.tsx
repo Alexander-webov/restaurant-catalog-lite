@@ -10,7 +10,7 @@ import { fromCentsToDollars } from "../../shared/lib/money";
 import { XMarkIcon } from "@heroicons/react/16/solid";
 import GoToMenu from "../../shared/ui/GoToMenu";
 import {
-  selectDiscountCents,
+  selectCountProcentDiscount,
   selectSubtotalCents,
   selectTaxCents,
   selectTotalCents,
@@ -21,30 +21,26 @@ import { CONVENIENCE_FEE_CENTS } from "../../features/cart/cart.constans";
 import { Toaster } from "react-hot-toast";
 import toast from "react-hot-toast";
 const Cart = () => {
-  const [promoInputValue, setPromoInputValue] = useState("sushi");
+  const [promoInputValue, setPromoInputValue] = useState("");
   const { cart } = useAppSelector((state) => state.cart);
   const { promo } = useAppSelector((state) => state);
-  console.log(promo);
 
   const dispatch = useAppDispatch();
-
+  const discount = useAppSelector(selectCountProcentDiscount);
   const totalPriceItems = useAppSelector(selectSubtotalCents);
-  const discountCents = useAppSelector(selectDiscountCents);
   const tax = useAppSelector(selectTaxCents);
   const convenienceFee = CONVENIENCE_FEE_CENTS;
-
   const totalPrice = useAppSelector(selectTotalCents);
+  console.log(discount);
   function handelPromo(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    dispatch(applyCode({ code: promoInputValue }));
+    dispatch(applyCode({ discount: 0.25, code: promoInputValue }));
   }
   useEffect(() => {
     if (promo.applied) {
-      toast.success(
-        `WOW! You got discount ${fromCentsToDollars(discountCents)}`
-      );
+      toast.success(`WOW! You got discount -${fromCentsToDollars(discount)}`);
     }
-  }, [promo.applied, discountCents]);
+  }, [promo.applied, discount]);
   return (
     <div className="h-full w-[1140px]">
       <Title>CART</Title>
@@ -116,7 +112,7 @@ const Cart = () => {
               <p className="text-3xl mt-5">Promo Code</p>
               {promo.applied ? (
                 <div className="text-xl mt-2">
-                  Discount <span>-{fromCentsToDollars(discountCents)}</span>{" "}
+                  Discount <span> -{fromCentsToDollars(discount)}</span>{" "}
                   <span className="text-green-500">APPLIED</span>
                 </div>
               ) : (
