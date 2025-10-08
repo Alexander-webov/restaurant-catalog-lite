@@ -1,75 +1,115 @@
-# DEMO - https://ya-sushi2.netlify.app
+# Restaurant Catalog Lite
 
-# React + TypeScript + Vite
+A demo of a restaurant with a cart, menu, promo codes, taxes/fees calculations, and a clean Tailwind UI. Built with React + React-router v6.4 + Redux + Tailwind. The goal is to look and feel like a real feature slice you’d ship at work.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Live demo:** https://ya-sushi2.netlify.app/
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features
 
-## React Compiler
+- Menu list with images, prices, and add‑to‑cart
+- Cart with increment/decrement, remove, empty state
+- **Promo code** application with validation and success/error toasts
+- Derived totals: **subtotal, discount, tax, convenience fee, grand total**
+- UX niceties: toasts, disabled states, empty states
+- Responsive layout (mobile‑first); keyboard focus states
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+> Roadmap (optional): search in menu, categories, PWA offline cache, mock API (JSON Server / Supabase), unit tests (Vitest + RTL)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🧱 Tech Stack
 
-```js
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
+- **React 18 + Vite**
+- **TypeScript**
+- **Tailwind CSS**
+- **Redux Toolkit** (cart/promo state & selectors)
+- **react-hot-toast** for notifications
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+## 📸 Screenshots
+
+<p>
+  <img src="./public/screens/image1.png" alt="Home" width="420">
+</p>
+<p>
+  <img src="./public/screens/image2.png" alt="Home" width="420">
+</p>
+<p>
+  <img src="../public/screens/image3.png" alt="Home" width="420">
+</p>
+<p>
+  <img src="./public/screens/image.png" alt="Home" width="420">
+</p>
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+
+### Install
+
+```bash
+pnpm i
+# or
+npm i
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Run Dev
 
-```js
-// eslint.config.js
-import reactX from "eslint-plugin-react-x";
-import reactDom from "eslint-plugin-react-dom";
-
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs["recommended-typescript"],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+```bash
+pnpm dev
+# or
+npm run dev
 ```
+
+### Build & Preview
+
+```bash
+pnpm build && pnpm preview
+# or
+npm run build && npm run preview
+```
+
+---
+
+## 🧮 App Structure (high‑level)
+
+```
+src/
+  assets/
+  features/
+    cart/
+      cartSlice.ts        # add/remove/increment/decrement
+      cart.selectors.ts   # subtotal, discount, tax, total
+    promo/
+      promoSlice.ts       # code, discount, applied flags
+  shared/
+    lib/money.ts          # cents→dollars helpers
+    ui/                   # presentational components
+  pages/
+    Menu.tsx              # main screen
+  app/
+    store.ts
+    hooks.ts
+```
+
+- **State**: Redux Toolkit slices for `cart` and `promo`, selectors for derived totals
+- **Types**: strict TypeScript types for items & cart lines
+- **UI**: Tailwind utility classes; accessible buttons/inputs
+
+---
+
+## ♿ Accessibility & UX
+
+- Visible focus states for interactive elements
+- ARIA labels for buttons (e.g., "Add to cart")
+- Toast feedback for success/error
+- Keyboard friendly (tab/enter/space)
+
+---

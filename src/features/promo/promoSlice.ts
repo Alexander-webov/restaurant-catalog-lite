@@ -13,7 +13,7 @@ export type DiscountType = {
 };
 
 const initialState: promoType = {
-  codeWord: "welcome25",
+  codeWord: "",
   value: 0,
   applied: false,
   error: null,

@@ -24,22 +24,34 @@ const Cart = () => {
   const [promoInputValue, setPromoInputValue] = useState("");
   const { cart } = useAppSelector((state) => state.cart);
   const { promo } = useAppSelector((state) => state);
-
+  console.log(promo);
   const dispatch = useAppDispatch();
   const discount = useAppSelector(selectCountProcentDiscount);
   const totalPriceItems = useAppSelector(selectSubtotalCents);
   const tax = useAppSelector(selectTaxCents);
   const convenienceFee = CONVENIENCE_FEE_CENTS;
   const totalPrice = useAppSelector(selectTotalCents);
-  console.log(discount);
+
   function handelPromo(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    dispatch(applyCode({ discount: 0.25, code: promoInputValue }));
-  }
-  useEffect(() => {
-    if (promo.applied) {
-      toast.success(`WOW! You got discount -${fromCentsToDollars(discount)}`);
+    const code = promoInputValue.trim();
+
+    if (!code) {
+      toast.error("Please, enter your promo code.");
+      return;
     }
+    if (code !== promo.codeWord) {
+      toast.error(`Your code "${code}" is not correct.`);
+      return;
+    }
+
+    dispatch(applyCode({ discount: 0.25, code }));
+  }
+
+  useEffect(() => {
+    if (promo.applied)
+      toast.success(`WOW! You got discount -${fromCentsToDollars(discount)}`);
+    setPromoInputValue("");
   }, [promo.applied, discount]);
   return (
     <div className="h-full w-[1140px]">
@@ -120,7 +132,7 @@ const Cart = () => {
                   <input
                     type="text"
                     placeholder="enter promo code"
-                    defaultValue={promoInputValue}
+                    value={promoInputValue}
                     className="mt-8 px-3 py-4 w-full border-black border-2"
                     onChange={(e) => setPromoInputValue(e.target.value)}
                   />
@@ -133,8 +145,8 @@ const Cart = () => {
           </div>
         </div>
       ) : (
-        <div className=" text-center mt-20 font-bold text-3xl w-full">
-          cart is empty
+        <div className=" text-center mt-20 font-bold text-3xl w-full ">
+          <span className="uppercase">cart is empty</span>
           <div className="mt-10">
             <GoToMenu />
           </div>
