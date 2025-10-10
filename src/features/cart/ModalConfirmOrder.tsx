@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { useAppDispatch } from "../../app/hooks";
 
 type ModalConfirmOrderProps = {
-  open: boolean;
   total: string;
   onClose: () => void;
   onSuccess?: (receiptId: string) => void;
@@ -40,7 +38,6 @@ export default function ModalConfirmOrder({
   const [done, setDone] = useState<{ id: string } | null>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
 
-  const dispatch = useAppDispatch();
   // close ESC
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
