@@ -7,7 +7,7 @@ const Sidebar = () => {
   const dispatch = useAppDispatch();
   return (
     <nav>
-      <ul className="main-menu text-white bg-black  py-12 max-w-40 text-center rounded-3xl flex flex-col items-center justify-around w-24 drop-shadow-2xl">
+      <ul className="main-menu text-white bg-black  py-12 max-w-40 text-center rounded-2xl flex flex-col items-center justify-around w-24 drop-shadow-2xl">
         <li className=" flex justify-center p-2  mb-3">
           <img src={Logo} alt="S" />
         </li>

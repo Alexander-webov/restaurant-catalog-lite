@@ -20,17 +20,21 @@ import { applyCode } from "../../features/promo/promoSlice";
 import { CONVENIENCE_FEE_CENTS } from "../../features/cart/cart.constans";
 import { Toaster } from "react-hot-toast";
 import toast from "react-hot-toast";
+import ModalConfirmOrder from "../../features/cart/ModalConfirmOrder";
+
 const Cart = () => {
   const [promoInputValue, setPromoInputValue] = useState("");
+  const [openConfirmOrder, setOpenConfirmOrder] = useState(false);
+
+  const dispatch = useAppDispatch();
+
   const { cart } = useAppSelector((state) => state.cart);
   const { promo } = useAppSelector((state) => state);
-  console.log(promo);
-  const dispatch = useAppDispatch();
   const discount = useAppSelector(selectCountProcentDiscount);
   const totalPriceItems = useAppSelector(selectSubtotalCents);
   const tax = useAppSelector(selectTaxCents);
   const convenienceFee = CONVENIENCE_FEE_CENTS;
-  const totalPrice = useAppSelector(selectTotalCents);
+  const totalPrice = fromCentsToDollars(useAppSelector(selectTotalCents));
 
   function handelPromo(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -54,15 +58,17 @@ const Cart = () => {
     setPromoInputValue("");
   }, [promo.applied, discount]);
   return (
-    <div className="h-full w-[1140px]">
-      <Title>CART</Title>
+    <div className="h-full  max-w-[1140px] pr-5">
+      <div className="mb-5">
+        <Title>CART</Title>
+      </div>
       {cart.length > 0 ? (
-        <div className="flex gap-5">
+        <div className="flex md:flex-row flex-col gap-5">
           <div className="max-h-[600px] overflow-x-auto">
             {cart.map((item) => (
               <div
                 key={item.id}
-                className="w-[610px] bg-[#F1D5BB]  px-5 py-6  flex justify-between items-center text-xl"
+                className="w-[610px] bg-[#F1D5BB]  px-5 py-6  flex justify-between items-center text-xl "
               >
                 <div className="flex items-center w-[310px]">
                   <img
@@ -100,8 +106,9 @@ const Cart = () => {
               </div>
             ))}
           </div>
-          <div className="ml-5">
-            <div className="bg-[#F1D5BB] w-[330px]   mb-4 px-5 py-7">
+
+          <div className="md:ml-5">
+            <div className="bg-[#F1D5BB] w-full md:w-[330px]   mb-4 px-5 py-7">
               <p className="text-3xl mt-2 text-center">Order Summary</p>
               <div className="text-2xl mt-5">
                 Subtotal <span>{fromCentsToDollars(totalPriceItems)}</span>
@@ -114,13 +121,16 @@ const Cart = () => {
                 <span>{fromCentsToDollars(convenienceFee)}</span>
               </div>
               <div className="text-xl mt-2">
-                Total <span>{fromCentsToDollars(totalPrice)}</span>
+                Total <span>{totalPrice}</span>
               </div>
-              <button className="mt-8 bg-black text-white px-3  py-5 w-full">
-                Confirm Order
+              <button
+                className="mt-8 bg-black text-white px-3  py-5 w-full"
+                onClick={() => setOpenConfirmOrder(true)}
+              >
+                Checkout
               </button>
             </div>
-            <div className="border-2 border-[#F1D5BB] p-5 w-[330px] mt-10">
+            <div className="border-2 border-[#F1D5BB] p-5  w-full md:w-[330px] mt-10">
               <p className="text-3xl mt-5">Promo Code</p>
               {promo.applied ? (
                 <div className="text-xl mt-2">
@@ -153,6 +163,12 @@ const Cart = () => {
         </div>
       )}
       <Toaster position="bottom-right" reverseOrder={true} />
+      {cart.length > 0 && openConfirmOrder && (
+        <ModalConfirmOrder
+          onClose={() => setOpenConfirmOrder(false)}
+          total={totalPrice}
+        />
+      )}
     </div>
   );
 };

@@ -44,10 +44,10 @@ const Index = () => {
   if (isPending) return <SkeletonView />;
   if (isError) return <h2>Category not found</h2>;
   const items = data ?? [];
-  console.log(items);
+
   return (
     <div className="relative flex flex-col justify-between ">
-      <div className="mb-5 flex justify-between items-center">
+      <div className="mb-5 flex justify-around xl:justify-between items-center">
         <Title>/ {slug}</Title>
 
         <div className="flex">
@@ -64,7 +64,7 @@ const Index = () => {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-5 max-w-[1140px] flex-1 max-h-[700px] h-full overflow-x-auto px-5">
+      <div className="flex justify-around xl:justify-between flex-wrap gap-5 max-w-[1140px] flex-1 max-h-[700px] h-full overflow-x-auto px-5">
         {items.map((el) => (
           <div
             className="cursor-pointer z-1 w-[224px] mx-3 mb-1"

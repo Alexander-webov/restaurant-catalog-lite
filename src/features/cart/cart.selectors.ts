@@ -13,11 +13,6 @@ export const selectSubtotalCents = createSelector([selectCartItems], (items) =>
   items.reduce((sum, i) => sum + i.price_cents * i.quantity, 0)
 );
 
-/* export const selectDiscountCents = createSelector(
-  [selectSubtotalCents, selectPromo],
-  (subtotal, promo) => (promo.applied ? Math.min(promo.value, subtotal) : 0)
-);
- */
 export const selectDiscountCents = createSelector(
   [selectSubtotalCents, selectPromo],
   (subtotal, promo) =>
@@ -32,7 +27,6 @@ export const selectConvenienceFeeCents = () => CONVENIENCE_FEE_CENTS;
 
 export const selectCountProcentDiscount = createSelector(
   [selectSubtotalCents, selectDiscountCents],
-  //example: (1000 / 100) * (0.25 * 100) = 250 - cents!
   (subtotal, discount) => (subtotal / 100) * discount * 100
 );
 

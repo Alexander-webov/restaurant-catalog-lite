@@ -1,7 +1,6 @@
 import Title from "../../shared/ui/Title";
 import { getCategoriesTable } from "../../shared/api/catalog";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
 import ErrorState from "../../shared/ui/ErrorState";
 import Category from "../../entities/category/Category";
 import SkeletonView from "../../entities/skeleton/SkeletonView";
@@ -11,7 +10,6 @@ import { useAppSelector } from "../../app/hooks";
 import { selectCartQuantity } from "../../features/cart/cart.selectors";
 
 const MenuPage = () => {
-  const [showMore, setShowMore] = useState(true);
   const count = useAppSelector(selectCartQuantity);
   const {
     isPending,
@@ -31,7 +29,7 @@ const MenuPage = () => {
   return (
     <div>
       <div className="">
-        <div className="mb-5 flex justify-between items-center">
+        <div className="mb-5 flex  justify-around xl:justify-between items-center">
           <Title>MENU</Title>
 
           <div className="flex">
@@ -46,25 +44,13 @@ const MenuPage = () => {
         </div>
 
         <div
-          className={`flex flex-wrap gap-8 text-center max-h-[660px] ${
-            !showMore ? "overflow-y-auto" : "overflow-y-hidden"
-          } mt-5`}
+          className={`flex justify-around xl:justify-between flex-wrap gap-8 text-center max-h-[660px] overflow-y-auto mt-5`}
         >
           {categories?.map((category) => (
             <Category key={category.id} category={category} />
           ))}
         </div>
       </div>
-      {categories.length < 8
-        ? showMore && (
-            <button
-              onClick={() => setShowMore(!showMore)}
-              className=" mt-5 py-4 px-8 bg-black text-white  block mx-auto"
-            >
-              show more
-            </button>
-          )
-        : null}
     </div>
   );
 };

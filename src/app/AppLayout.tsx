@@ -4,10 +4,10 @@ import Sidebar from "../widgets/sidebar/Sidebar";
 const AppLayout = () => {
   return (
     <>
-      <main className="max-w-[1440px] m-auto pt-11 pl-12 pb-5 pr-28 min-h-dvh h-dvh flex">
+      <main className="max-w-[1300px] m-auto min-h-dvh h-dvh flex p-5">
         <Sidebar />
 
-        <div className="ml-12">
+        <div className="xl:ml-12 ml-2">
           <Outlet />
         </div>
       </main>

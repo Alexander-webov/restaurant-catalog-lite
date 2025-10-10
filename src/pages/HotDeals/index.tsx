@@ -27,10 +27,10 @@ const HotDeals = () => {
     <div className="w-full">
       <div className="flex items-center ">
         <Title>HOT DEALS</Title>
-        <div className="text-3xl ml-14 border-dashed border-[#F1D5BB] border-2 p-2">
+        <div className="sm:text-3xl text-xl md:ml-14  ml-2 border-dashed border-[#F1D5BB] border-2 p-2">
           Tap to copy
         </div>
-        <div className="flex flex-1 ml-10 ">
+        <div className="flex flex-1 md:ml-10 ml-2">
           <Link
             className="bg-black text-white px-5 py-3 ml-5 flex items-center"
             to="/cart"

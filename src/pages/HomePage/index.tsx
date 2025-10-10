@@ -9,15 +9,15 @@ const Home = () => {
       style={{ backgroundImage: `url(${bgImage})` }}
     >
       <div className="flex justify-center items-center min-h-dvh flex-col max-w-[830px] mx-auto text-gray-50 text-center">
-        <div className="">
+        <div className="w-56 md:w-full flex justify-center">
           <img src={BigLogo} alt="logo" />
         </div>
         <h1 className="text-6xl mb-12">Welcome!</h1>
-        <p className="mb-12 text-2xl max-w-[485px]">
+        <p className="mb-12 text-2xl max-w-[485px] px-5">
           Explore our menu, choose your favorites, and place your order in just
           a few taps.
         </p>
-        <div className="flex gap-8">
+        <div className="flex gap-8 flex-wrap justify-center">
           <Button link="/about" bgColor="white" textColor="black">
             About
           </Button>
