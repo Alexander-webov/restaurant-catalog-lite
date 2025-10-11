@@ -64,7 +64,7 @@ const Index = () => {
         </div>
       </div>
 
-      <div className="flex justify-around xl:justify-between flex-wrap gap-5 max-w-[1140px] flex-1 max-h-[700px] h-full overflow-x-auto px-5">
+      <div className="flex justify-around xl:justify-normal flex-wrap gap-5 max-w-[1140px] flex-1 max-h-[700px] h-full overflow-x-auto px-5">
         {items.map((el) => (
           <div
             className="cursor-pointer z-1 w-[224px] mx-3 mb-1"

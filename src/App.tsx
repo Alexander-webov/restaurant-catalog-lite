@@ -6,12 +6,14 @@ import About from "./pages/AboutPage/index";
 import Cart from "./pages/CartPage/index";
 import HotDeals from "./pages/HotDeals/index";
 import MenuCategoryPage from "./pages/MenuCategoryPage/index";
+import NotFound from "./pages/NotFound/index";
 
 const router = createBrowserRouter([
   {
     element: <Home />,
     path: "/",
   },
+
   {
     element: <AppLayout />,
     children: [
@@ -34,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: "/cart",
         element: <Cart />,
+      },
+      {
+        element: <NotFound />,
+        path: "*",
       },
     ],
   },

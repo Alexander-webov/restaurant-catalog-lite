@@ -10,3 +10,8 @@
   SECRETS_SCAN_OMIT_PATHS = "dist/**"
   # (крайняя мера) полностью отключить сканер:
   # SECRETS_SCAN_ENABLED = "false"
+  
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

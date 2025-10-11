@@ -124,7 +124,7 @@ export default function ModalConfirmOrder({
         if (e.target === dialogRef.current && !processing) onClose();
       }}
     >
-      <div className="w-full max-w-md rounded-2xl bg-white p-5 shadow-xl">
+      <div className="w-full max-w-md rounded-md bg-white p-5 shadow-xl">
         {done ? (
           <div className="space-y-4 text-center">
             <div className="text-green-600 text-2xl font-semibold">Paid</div>
@@ -137,7 +137,7 @@ export default function ModalConfirmOrder({
             <p className="text-lg font-medium">Total: {total}</p>
             <button
               onClick={onClose}
-              className="mt-2 w-full rounded-xl border border-gray-300 px-4 py-2 hover:bg-gray-50"
+              className="mt-2 w-full rounded-md border border-gray-300 px-4 py-2 hover:bg-gray-50"
             >
               Close
             </button>
@@ -166,7 +166,7 @@ export default function ModalConfirmOrder({
               <input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full rounded-xl border px-3 py-2 outline-none focus:ring-2 focus:ring-black"
+                className="w-full rounded-md border px-3 py-2 outline-none focus:ring-2 focus:ring-black"
                 placeholder="JOHN DOE"
                 autoComplete="cc-name"
               />
@@ -180,7 +180,7 @@ export default function ModalConfirmOrder({
                 inputMode="numeric"
                 value={card}
                 onChange={(e) => setCard(formatCard(e.target.value))}
-                className="w-full rounded-xl border px-3 py-2 font-mono outline-none focus:ring-2 focus:ring-black"
+                className="w-full rounded-md border px-3 py-2 font-mono outline-none focus:ring-2 focus:ring-black"
                 placeholder="4242 4242 4242 4242"
                 autoComplete="cc-number"
                 aria-describedby="card-hint"
@@ -199,7 +199,7 @@ export default function ModalConfirmOrder({
                   inputMode="numeric"
                   value={exp}
                   onChange={(e) => setExp(formatExp(e.target.value))}
-                  className="w-full rounded-xl border px-3 py-2 font-mono outline-none focus:ring-2 focus:ring-black"
+                  className="w-full rounded-md border px-3 py-2 font-mono outline-none focus:ring-2 focus:ring-black"
                   placeholder="12/29"
                   autoComplete="cc-exp"
                 />
@@ -212,7 +212,7 @@ export default function ModalConfirmOrder({
                   onChange={(e) =>
                     setCvv(e.target.value.replace(/\D/g, "").slice(0, 4))
                   }
-                  className="w-full rounded-xl border px-3 py-2 font-mono outline-none focus:ring-2 focus:ring-black"
+                  className="w-full rounded-md border px-3 py-2 font-mono outline-none focus:ring-2 focus:ring-black"
                   placeholder="123"
                   autoComplete="cc-csc"
                 />
@@ -234,7 +234,7 @@ export default function ModalConfirmOrder({
             </div>
 
             {error && (
-              <div className="rounded-xl bg-red-50 p-3 text-sm text-red-700">
+              <div className="rounded-md bg-red-50 p-3 text-sm text-red-700">
                 {error}
               </div>
             )}
