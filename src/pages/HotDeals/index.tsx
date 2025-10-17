@@ -5,7 +5,7 @@ import { getDiscount } from "../../features/promo/promoSlice";
 import { Link } from "react-router-dom";
 import { ShoppingCartIcon } from "@heroicons/react/16/solid";
 import { selectCartQuantity } from "../../features/cart/cart.selectors";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 const HotDeals = () => {
   const dispatch = useAppDispatch();
@@ -47,7 +47,6 @@ const HotDeals = () => {
           </button>
         </li>
       </ul>
-      <Toaster position="top-center" reverseOrder={false} />
     </div>
   );
 };

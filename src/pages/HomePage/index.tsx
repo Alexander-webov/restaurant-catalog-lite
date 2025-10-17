@@ -12,8 +12,10 @@ const Home = () => {
         <div className="w-56 md:w-full flex justify-center">
           <img src={BigLogo} alt="logo" />
         </div>
-        <h1 className="text-6xl mb-12">Welcome!</h1>
-        <p className="mb-12 text-2xl max-w-[485px] px-5">
+        <h1 className="text-3xl xl:text-6xl mb-12 mt-5 text-slate-200">
+          6007 Bay Parkway Brooklyn, NY 11204
+        </h1>
+        <p className="mb-5 xl:mb-12 text-2xl max-w-[485px] px-5">
           Explore our menu, choose your favorites, and place your order in just
           a few taps.
         </p>

@@ -46,9 +46,16 @@ export const promoSlice = createSlice({
     getDiscount: (state, action: PayloadAction<{ code: string }>) => {
       state.codeWord = action.payload.code;
     },
+    cleanPromo: (state) => {
+      state.codeWord = "";
+      state.value = 0;
+      state.applied = false;
+      state.error = null;
+      state.appliedCode = null;
+    },
   },
 });
 
-export const { applyCode, getDiscount } = promoSlice.actions;
+export const { applyCode, getDiscount, cleanPromo } = promoSlice.actions;
 
 export default promoSlice.reducer;

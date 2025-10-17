@@ -13,6 +13,8 @@ import {
 } from "@heroicons/react/16/solid";
 import { useAppSelector } from "../../app/hooks";
 import { selectCartQuantity } from "../../features/cart/cart.selectors";
+/* import { isStoreOpen } from "../../shared/lib/timeCloseStore";
+import toast from "react-hot-toast"; */
 
 export type ItemType = {
   id: number;
@@ -23,7 +25,7 @@ export type ItemType = {
   image: string | null;
   is_active: boolean;
 };
-
+/* const CLOSED_TOAST_ID = "store-closed"; */
 const Index = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [currentItem, setCurrentItem] = useState<ItemType | null>(null);
@@ -36,6 +38,17 @@ const Index = () => {
   });
 
   function handelClick(item: ItemType) {
+    //business hours
+    /*     const isOpnen = isStoreOpen(9, 0, 12, 0);
+    if (!isOpnen) {
+      toast.error(
+        `Sorry, we’re closed now. We’re open from 9:00 AM to 10:00 PM`,
+        {
+          id: CLOSED_TOAST_ID,
+        }
+      );
+      return;
+    } */
     setModalIsOpen(true);
     setCurrentItem(item);
   }

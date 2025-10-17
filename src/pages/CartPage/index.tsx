@@ -2,6 +2,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import Title from "../../shared/ui/Title";
 import fallback from "../../assets/empty.png";
 import {
+  clearAllCart,
   decrementItem,
   delteItem,
   incrementItem,
@@ -16,9 +17,8 @@ import {
   selectTotalCents,
 } from "../../features/cart/cart.selectors";
 import { useEffect, useState } from "react";
-import { applyCode } from "../../features/promo/promoSlice";
+import { applyCode, cleanPromo } from "../../features/promo/promoSlice";
 import { CONVENIENCE_FEE_CENTS } from "../../features/cart/cart.constans";
-import { Toaster } from "react-hot-toast";
 import toast from "react-hot-toast";
 import ModalConfirmOrder from "../../features/cart/ModalConfirmOrder";
 
@@ -29,6 +29,7 @@ const Cart = () => {
   const dispatch = useAppDispatch();
 
   const { cart } = useAppSelector((state) => state.cart);
+  console.log(cart);
   const { promo } = useAppSelector((state) => state);
   const discount = useAppSelector(selectCountProcentDiscount);
   const totalPriceItems = useAppSelector(selectSubtotalCents);
@@ -52,11 +53,18 @@ const Cart = () => {
     dispatch(applyCode({ discount: 0.25, code }));
   }
 
+  function handelCloseOrders() {
+    setOpenConfirmOrder(false);
+    dispatch(clearAllCart());
+    dispatch(cleanPromo());
+  }
+
   useEffect(() => {
     if (promo.applied)
       toast.success(`WOW! You got discount -${fromCentsToDollars(discount)}`);
     setPromoInputValue("");
   }, [promo.applied, discount]);
+
   return (
     <div className="h-full  max-w-[1140px] pr-5">
       <div className="mb-5">
@@ -162,12 +170,8 @@ const Cart = () => {
           </div>
         </div>
       )}
-      <Toaster position="bottom-right" reverseOrder={true} />
       {cart.length > 0 && openConfirmOrder && (
-        <ModalConfirmOrder
-          onClose={() => setOpenConfirmOrder(false)}
-          total={totalPrice}
-        />
+        <ModalConfirmOrder onClose={handelCloseOrders} total={totalPrice} />
       )}
     </div>
   );

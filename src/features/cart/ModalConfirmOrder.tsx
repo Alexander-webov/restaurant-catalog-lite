@@ -1,4 +1,8 @@
 import { useEffect, useRef, useState } from "react";
+import { addNewItemsToOrder, addNewOrderInfo } from "../../shared/api/orders";
+import { useAppSelector } from "../../app/hooks";
+import { nextIntId } from "../../shared/lib/generatorId";
+import type { AddItemsType, AddOrdersType } from "../../entities/orders/types";
 
 type ModalConfirmOrderProps = {
   total: string;
@@ -28,15 +32,17 @@ export default function ModalConfirmOrder({
   onClose,
   onSuccess,
 }: ModalConfirmOrderProps) {
-  const [card, setCard] = useState("");
-  const [exp, setExp] = useState("");
-  const [cvv, setCvv] = useState("");
-  const [name, setName] = useState("");
-  const [agree, setAgree] = useState(false);
+  const [card, setCard] = useState("4242 4242 4242 4242");
+  const [exp, setExp] = useState("12/29");
+  const [cvv, setCvv] = useState("123");
+  const [name, setName] = useState("JOHN DOE");
+  const [agree, setAgree] = useState(true);
   const [processing, setProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState<{ id: string } | null>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
+
+  const { cart } = useAppSelector((state) => state.cart);
 
   // close ESC
   useEffect(() => {
@@ -99,7 +105,7 @@ export default function ModalConfirmOrder({
     const digits = card.replace(/\s+/g, "");
     const fail = digits.endsWith("0002");
 
-    await new Promise((r) => setTimeout(r, 1200)); // имитация сети
+    await new Promise((r) => setTimeout(r, 1200));
 
     setProcessing(false);
     if (fail) {
@@ -110,6 +116,32 @@ export default function ModalConfirmOrder({
       const receiptId = Math.random().toString(36).slice(2, 10).toUpperCase();
       setDone({ id: receiptId });
       onSuccess?.(receiptId);
+
+      try {
+        const idItems = nextIntId();
+
+        const order: AddOrdersType = {
+          id: idItems + 1,
+          status: "new",
+          customer_name: name,
+        };
+
+        const items: AddItemsType[] = cart.map(
+          (item): AddItemsType => ({
+            id: idItems + item.id,
+            order_id: order.id,
+            name: item.name,
+            qty: item.quantity,
+            status: "cooking",
+            receipt_number: receiptId,
+          })
+        );
+
+        await addNewOrderInfo(order);
+        await addNewItemsToOrder(items);
+      } catch {
+        setError("Failed to create order");
+      }
     }
   }
 
@@ -120,20 +152,23 @@ export default function ModalConfirmOrder({
       role="dialog"
       aria-labelledby="demo-payment-title"
       ref={dialogRef}
-      onClick={(e) => {
-        if (e.target === dialogRef.current && !processing) onClose();
-      }}
     >
       <div className="w-full max-w-md rounded-md bg-white p-5 shadow-xl">
         {done ? (
           <div className="space-y-4 text-center">
             <div className="text-green-600 text-2xl font-semibold">Paid</div>
-            <p className="text-sm text-gray-600">
-              <div className="">
-                Please, save this code for confirm you order.
+            <div className="">
+              Your order will be ready in 30-60 minutes. You can pick it up at
+              6007 Bay Parkway Brooklyn, NY 11204.
+            </div>
+            <div className=" text-red-700">
+              <div className="mb-5">
+                Please use the <strong>receipt number</strong> to confirm your
+                order or give
+                <strong> your name</strong> at the restaurant. Receipt:{" "}
+                <strong className="font-mono">{done.id}</strong>
               </div>
-              Receipt: <strong className="font-mono">{done.id}</strong>
-            </p>
+            </div>
             <p className="text-lg font-medium">Total: {total}</p>
             <button
               onClick={onClose}
@@ -182,6 +217,7 @@ export default function ModalConfirmOrder({
                 onChange={(e) => setCard(formatCard(e.target.value))}
                 className="w-full rounded-md border px-3 py-2 font-mono outline-none focus:ring-2 focus:ring-black"
                 placeholder="4242 4242 4242 4242"
+                defaultValue="4242 4242 4242 4242"
                 autoComplete="cc-number"
                 aria-describedby="card-hint"
               />
@@ -201,6 +237,7 @@ export default function ModalConfirmOrder({
                   onChange={(e) => setExp(formatExp(e.target.value))}
                   className="w-full rounded-md border px-3 py-2 font-mono outline-none focus:ring-2 focus:ring-black"
                   placeholder="12/29"
+                  defaultValue="12/29"
                   autoComplete="cc-exp"
                 />
               </div>
@@ -214,6 +251,7 @@ export default function ModalConfirmOrder({
                   }
                   className="w-full rounded-md border px-3 py-2 font-mono outline-none focus:ring-2 focus:ring-black"
                   placeholder="123"
+                  defaultValue="123"
                   autoComplete="cc-csc"
                 />
               </div>

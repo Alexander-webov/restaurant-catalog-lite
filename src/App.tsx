@@ -6,12 +6,22 @@ import About from "./pages/AboutPage/index";
 import Cart from "./pages/CartPage/index";
 import HotDeals from "./pages/HotDeals/index";
 import MenuCategoryPage from "./pages/MenuCategoryPage/index";
+import AdminPanel from "./pages/AdminPanel/index";
+import Kitchen from "./pages/Kitchen/index";
 import NotFound from "./pages/NotFound/index";
 
 const router = createBrowserRouter([
   {
     element: <Home />,
     path: "/",
+  },
+  {
+    path: "/admin-panel",
+    element: <AdminPanel />,
+  },
+  {
+    path: "/kitchen",
+    element: <Kitchen />,
   },
 
   {
@@ -37,6 +47,7 @@ const router = createBrowserRouter([
         path: "/cart",
         element: <Cart />,
       },
+
       {
         element: <NotFound />,
         path: "*",
