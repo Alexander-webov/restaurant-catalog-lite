@@ -1,14 +1,10 @@
-import { createClient } from "@supabase/supabase-js";
 import type {
   OrderStatus,
   GetOrdersTableType,
   AddOrdersType,
   AddItemsType,
 } from "../../entities/orders/types";
-
-const url = import.meta.env.VITE_SUPABASE_URL;
-const api = import.meta.env.VITE_SUPABASE_ANON_KEY;
-export const supabase = createClient(url, api);
+import { supabase } from "./supabaseClient";
 
 export async function getOrdersTable(): Promise<GetOrdersTableType[]> {
   const { data, error } = await supabase.from("orders").select("*");

@@ -13,24 +13,15 @@ import {
 } from "@heroicons/react/16/solid";
 import { useAppSelector } from "../../app/hooks";
 import { selectCartQuantity } from "../../features/cart/cart.selectors";
-/* import { isStoreOpen } from "../../shared/lib/timeCloseStore";
-import toast from "react-hot-toast"; */
+import type { ItemType } from "../../entities/category/types";
 
-export type ItemType = {
-  id: number;
-  name: string;
-  slug: string;
-  price_cents: number;
-  description: string | null;
-  image: string | null;
-  is_active: boolean;
-};
 /* const CLOSED_TOAST_ID = "store-closed"; */
 const Index = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [currentItem, setCurrentItem] = useState<ItemType | null>(null);
   const count = useAppSelector(selectCartQuantity);
   const { slug } = useParams<{ slug: string }>();
+
   const { data, isPending, isError } = useQuery({
     queryKey: ["itemsByCategory", slug],
     queryFn: () => getItemsByCategorySlug(slug!),

@@ -8,6 +8,7 @@ import HotDeals from "./pages/HotDeals/index";
 import MenuCategoryPage from "./pages/MenuCategoryPage/index";
 import AdminPanel from "./pages/AdminPanel/index";
 import Kitchen from "./pages/Kitchen/index";
+import LoginPage from "./pages/LoginPage/index";
 import NotFound from "./pages/NotFound/index";
 
 const router = createBrowserRouter([
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
   {
     path: "/kitchen",
     element: <Kitchen />,
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
   },
 
   {
