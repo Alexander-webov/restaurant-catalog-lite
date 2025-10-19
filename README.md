@@ -1,52 +1,87 @@
 # Restaurant Catalog Lite
 
-A demo of a restaurant with a cart, menu, promo codes, taxes/fees calculations, and a clean Tailwind UI. Built with React + React-router v6.4 + Redux + Tailwind. The goal is to look and feel like a real feature slice you’d ship at work.
+A production-like slice of a restaurant app: categorized menu with images, cart, promo codes, taxes/fees, and a lightweight admin (manager/kitchen). Built to demonstrate practical frontend + minimal backend integration and quality basics (state, types, routing, auth, storage, deploy).
 
-**Live demo:** https://ya-sushi2.netlify.app/
+**Live:** https://ya-sushi2.netlify.app/  
+**Repo:** https://github.com/Alexander-webov/restaurant-catalog-lite
 
----
-
-## ✨ Features
-
-- Menu list with images, prices, and add‑to‑cart
-- Cart with increment/decrement, remove, empty state
-- **Promo code** application with validation and success/error toasts
-- Derived totals: **subtotal, discount, tax, convenience fee, grand total**
-- UX niceties: toasts, disabled states, empty states
-- Responsive layout (mobile‑first); keyboard focus states
-
-> Roadmap (optional): search in menu, categories, PWA offline cache, mock API (JSON Server / Supabase), unit tests (Vitest + RTL)
+<p>
+  <img src="./public/screens/image1.png" alt="Menu" width="420">
+  <img src="./public/screens/image2.png" alt="Cart" width="420">
+</p>
+<p>
+  <img src="./public/screens/image.png" alt="Kitchen" width="420">
+  <img src="./public/screens/image3.png" alt="Admin" width="420">
+</p>
 
 ---
 
-## 🧱 Tech Stack
+## TL;DR — Why this project?
 
-- **React 18 + Vite**
-- **TypeScript**
+- Realistic feature slice you’d ship at work: cart, discounts, derived totals, admin flows.
+- Clean TypeScript types, Redux Toolkit for predictable state, Supabase Storage uploads.
+- Simple, reliable deploy on Netlify with SPA routing.
+
+---
+
+## Features
+
+### Customer
+
+- Browse menu by category with images and prices
+- Cart: add/remove, increment/decrement, empty state
+- Promo codes with validation and toast feedback
+- Derived totals: **subtotal → discount → tax → convenience fee → grand total**
+- Responsive UI (mobile-first), accessible focus states
+
+### Admin / Back-of-House
+
+- Minimal **email/password auth** via Supabase
+- Route protection (manager/kitchen pages)
+- CRUD for **categories** and **items**:
+  - Create/update/delete with FK error handling
+  - Image upload to **Supabase Storage** (public bucket) and immediate preview
+- Storage RLS policies: `INSERT/UPDATE` for `authenticated`, `SELECT` for `public`
+
+---
+
+## Tech Stack
+
+- **React 18 + Vite**, **TypeScript**
+- **Redux Toolkit** (cart/promo slices + selectors)
+- **React Router v6**
 - **Tailwind CSS**
-- **Redux Toolkit** (cart/promo state & selectors)
-- **react-hot-toast** for notifications
+- **Supabase** (Auth, Storage, PostgREST)
+- **react-hot-toast** (UX feedback)
 
 ---
 
-## 📸 Screenshots
+## Project Tour
 
-<p>
-  <img src="./public/screens/image1.png" alt="Home" width="420">
-</p>
-<p>
-  <img src="./public/screens/image2.png" alt="Home" width="420">
-</p>
-<p>
-  <img src="../public/screens/image3.png" alt="Home" width="420">
-</p>
-<p>
-  <img src="./public/screens/image.png" alt="Home" width="420">
-</p>
+src/
+app/
+store.ts # Redux store
+hooks.ts # typed hooks
+features/
+cart/ # cart slice + selectors
+promo/ # promo slice
+pages/
+MenuCategoryPage.tsx
+AdminPanel/...
+shared/
+api/ # Supabase calls (items, categories, storage, auth)
+lib/ # utilities (money formatting, etc.)
+ui/ # reusable UI components
+types/
+item.ts # Item / NewItemInput, etc.
+
+- **State**: minimal, domain-oriented RTK slices, memoized selectors for totals
+- **Types**: separate types for DB rows vs. insert payloads (`Item` vs `NewItemInput`)
+- **Storage**: simple public-bucket flow (upload → `getPublicUrl` → store `image_url`) — easy to switch to signed URLs later
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -55,61 +90,83 @@ A demo of a restaurant with a cart, menu, promo codes, taxes/fees calculations, 
 ### Install
 
 ```bash
-pnpm i
-# or
 npm i
+# or
+pnpm i
 ```
 
-### Run Dev
+## Env
 
-```bash
-pnpm dev
-# or
+```
+
+Create .env.local:
+
+VITE_SUPABASE_URL=https://<your-project>.supabase.co
+VITE_SUPABASE_ANON_KEY=<your-anon-key>
+
+```
+
+## Supabase quick setup
+
+Create a project at https://app.supabase.com
+
+Auth → Email: enable, auto-confirm (for demo)
+
+Storage → New bucket: categories (Public ON)
+
+Storage → Policies (bucket: categories)
+
+INSERT/UPDATE → role authenticated, condition: bucket_id = 'categories'
+
+SELECT → role public, condition: bucket_id = 'categories'
+
+Tables
+
+categories: id, name, slug, image_url (text, nullable)
+
+items: id, name, slug, description (text, nullable), image (text, nullable), price_cents (int)
+
+## Dev
+
 npm run dev
-```
 
-### Build & Preview
-
-```bash
-pnpm build && pnpm preview
 # or
+
+pnpm dev
+
+## Build & Preview
+
 npm run build && npm run preview
-```
 
----
+# or
 
-## 🧮 App Structure (high‑level)
+pnpm build && pnpm preview
 
-```
-src/
-  assets/
-  features/
-    cart/
-      cartSlice.ts        # add/remove/increment/decrement
-      cart.selectors.ts   # subtotal, discount, tax, total
-    promo/
-      promoSlice.ts       # code, discount, applied flags
-  shared/
-    lib/money.ts          # cents→dollars helpers
-    ui/                   # presentational components
-  pages/
-    Menu.tsx              # main screen
-  app/
-    store.ts
-    hooks.ts
-```
+## Architecture Notes
 
-- **State**: Redux Toolkit slices for `cart` and `promo`, selectors for derived totals
-- **Types**: strict TypeScript types for items & cart lines
-- **UI**: Tailwind utility classes; accessible buttons/inputs
+Route protection: Protected checks supabase.auth.getSession() and subscribes to onAuthStateChange; redirects unauthenticated users to /login?redirect=…
 
----
+Uploads: unique filename → upload to categories bucket → getPublicUrl → persist image_url → instant preview
 
-## ♿ Accessibility & UX
+Errors: FK violations surface user-friendly messages; RLS errors prompt login/policy checks
 
-- Visible focus states for interactive elements
-- ARIA labels for buttons (e.g., "Add to cart")
-- Toast feedback for success/error
-- Keyboard friendly (tab/enter/space)
+DX: strict TS, utilities for money formatting, clean Tailwind classes
 
----
+## Deployment
+
+Netlify with SPA redirect:
+
+Build: tsc -b && vite build
+
+Publish: dist/
+
+\_redirects or netlify.toml route /\* → /index.html 200
+
+Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in Site settings → Build & deploy → Environment
+
+## Author
+
+Alexander Webov — Frontend Engineer
+Repo: https://github.com/Alexander-webov/restaurant-catalog-lite
+
+Live: https://ya-sushi2.netlify.app/
