@@ -1,26 +1,18 @@
 # Restaurant Catalog Lite
 
-A production-like slice of a restaurant app: categorized menu with images, cart, promo codes, taxes/fees, and a lightweight admin (manager/kitchen). Built to demonstrate practical frontend + minimal backend integration and quality basics (state, types, routing, auth, storage, deploy).
+A lightweight restaurant catalog with categories, images, cart, promo codes, and admin screens for managers and kitchen. Built with **React + TypeScript + Vite + Tailwind + Redux Toolkit** and **Supabase** (Auth & Storage).
 
 **Live:** https://ya-sushi2.netlify.app/  
-**Repo:** https://github.com/Alexander-webov/restaurant-catalog-lite
+**Repository:** https://github.com/Alexander-webov/restaurant-catalog-lite
 
 <p>
   <img src="./public/screens/image1.png" alt="Menu" width="420">
   <img src="./public/screens/image2.png" alt="Cart" width="420">
 </p>
 <p>
-  <img src="./public/screens/image.png" alt="Kitchen" width="420">
   <img src="./public/screens/image3.png" alt="Admin" width="420">
+  <img src="./public/screens/image4.png" alt="Kitchen" width="420">
 </p>
-
----
-
-## TL;DR — Why this project?
-
-- Realistic feature slice you’d ship at work: cart, discounts, derived totals, admin flows.
-- Clean TypeScript types, Redux Toolkit for predictable state, Supabase Storage uploads.
-- Simple, reliable deploy on Netlify with SPA routing.
 
 ---
 
@@ -28,62 +20,66 @@ A production-like slice of a restaurant app: categorized menu with images, cart,
 
 ### Customer
 
-- Browse menu by category with images and prices
+- Menu by categories with images and prices
 - Cart: add/remove, increment/decrement, empty state
 - Promo codes with validation and toast feedback
 - Derived totals: **subtotal → discount → tax → convenience fee → grand total**
 - Responsive UI (mobile-first), accessible focus states
 
-### Admin / Back-of-House
+### Manager / Kitchen
 
-- Minimal **email/password auth** via Supabase
-- Route protection (manager/kitchen pages)
-- CRUD for **categories** and **items**:
-  - Create/update/delete with FK error handling
-  - Image upload to **Supabase Storage** (public bucket) and immediate preview
-- Storage RLS policies: `INSERT/UPDATE` for `authenticated`, `SELECT` for `public`
+- Email/password auth via Supabase
+- Protected routes for **/manager** and **/kitchen**
+- CRUD for **categories** and **items**
+- Image uploads to **Supabase Storage** (public bucket) with instant preview
+- RLS policies for Storage: `INSERT/UPDATE` (role `authenticated`), `SELECT` (`public`)
 
 ---
 
 ## Tech Stack
 
-- **React 18 + Vite**, **TypeScript**
+- **React 18**, **TypeScript**, **Vite**
 - **Redux Toolkit** (cart/promo slices + selectors)
 - **React Router v6**
 - **Tailwind CSS**
 - **Supabase** (Auth, Storage, PostgREST)
-- **react-hot-toast** (UX feedback)
+- **react-hot-toast** (notifications)
 
 ---
 
-## Project Tour
+## Project Structure
 
 src/
 app/
 store.ts # Redux store
 hooks.ts # typed hooks
 features/
-cart/ # cart slice + selectors
+cart/ # cart slice + selectors + UI
 promo/ # promo slice
 pages/
 MenuCategoryPage.tsx
-AdminPanel/...
+AdminPanel/
+Items/
+Categories/
+Kitchen/
 shared/
 api/ # Supabase calls (items, categories, storage, auth)
-lib/ # utilities (money formatting, etc.)
+lib/ # utilities (money, formatting, etc.)
 ui/ # reusable UI components
 types/
 item.ts # Item / NewItemInput, etc.
+public/
+screens/ # screenshots used in README
 
-- **State**: minimal, domain-oriented RTK slices, memoized selectors for totals
-- **Types**: separate types for DB rows vs. insert payloads (`Item` vs `NewItemInput`)
-- **Storage**: simple public-bucket flow (upload → `getPublicUrl` → store `image_url`) — easy to switch to signed URLs later
+- **State:** domain-oriented slices, memoized selectors for totals
+- **Types:** separate DB row vs. insert payload (`Item` vs `NewItemInput`)
+- **Storage:** public-bucket flow (upload → `getPublicUrl` → store `image_url`)
 
 ---
 
 ## Getting Started
 
-### Prerequisites
+### Requirements
 
 - Node.js 18+
 
@@ -95,22 +91,18 @@ npm i
 pnpm i
 ```
 
-## Env
+## Environment
 
-```
-
-Create .env.local:
+### Create .env.local:
 
 VITE_SUPABASE_URL=https://<your-project>.supabase.co
 VITE_SUPABASE_ANON_KEY=<your-anon-key>
 
-```
-
-## Supabase quick setup
+## Supabase Setup (quick)
 
 Create a project at https://app.supabase.com
 
-Auth → Email: enable, auto-confirm (for demo)
+Auth → Email: enable (auto-confirm for demo is fine)
 
 Storage → New bucket: categories (Public ON)
 
@@ -126,7 +118,7 @@ categories: id, name, slug, image_url (text, nullable)
 
 items: id, name, slug, description (text, nullable), image (text, nullable), price_cents (int)
 
-## Dev
+## Development
 
 npm run dev
 
@@ -142,31 +134,43 @@ npm run build && npm run preview
 
 pnpm build && pnpm preview
 
-## Architecture Notes
-
-Route protection: Protected checks supabase.auth.getSession() and subscribes to onAuthStateChange; redirects unauthenticated users to /login?redirect=…
-
-Uploads: unique filename → upload to categories bucket → getPublicUrl → persist image_url → instant preview
-
-Errors: FK violations surface user-friendly messages; RLS errors prompt login/policy checks
-
-DX: strict TS, utilities for money formatting, clean Tailwind classes
-
 ## Deployment
 
-Netlify with SPA redirect:
+Deployed on Netlify (SPA):
 
-Build: tsc -b && vite build
+Build command: tsc -b && vite build
 
-Publish: dist/
+Publish directory: dist/
 
-\_redirects or netlify.toml route /\* → /index.html 200
+SPA redirect via netlify.toml:
 
-Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in Site settings → Build & deploy → Environment
+[[redirects]]
+from = "/\*"
+to = "/index.html"
+status = 200
 
-## Author
+Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in Netlify → Site settings → Build & deploy → Environment.
 
-Alexander Webov — Frontend Engineer
-Repo: https://github.com/Alexander-webov/restaurant-catalog-lite
+## Implementation Notes
 
-Live: https://ya-sushi2.netlify.app/
+Route protection: Protected wrapper checks supabase.auth.getSession() and subscribes to onAuthStateChange; unauthenticated users are redirected to /login?redirect=....
+
+Uploads: unique filename → upload to categories bucket → getPublicUrl → save image_url into table → preview from URL.
+
+Error handling: foreign key violations (deleting categories with related items) show human-readable messages; RLS errors hint to sign in or adjust policies.
+
+DX: strict TS, small utilities (money formatting), clean Tailwind classes.
+
+## Roadmap
+
+Search & filters for menu
+
+Role-based access (manager/kitchen) via user_metadata + route checks
+
+PWA offline cache; tests (Vitest + RTL)
+
+Image transformations/thumbnails; private storage using signed URLs
+
+## License
+
+MIT © Alexander Webov
