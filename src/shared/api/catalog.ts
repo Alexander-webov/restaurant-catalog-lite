@@ -1,4 +1,8 @@
-import type { CategoryType, ItemType } from "../../entities/category/types";
+import type {
+  CategoryType,
+  ItemType,
+  NewItemInput,
+} from "../../entities/types";
 import { supabase } from "./supabaseClient";
 
 // ---- categories
@@ -50,7 +54,7 @@ export async function addNewCategoryInTable(input: {
   if (error) throw error;
 }
 
-export async function addNewItemInTable(input: ItemType) {
+export async function addNewItemInTable(input: NewItemInput) {
   const { error } = await supabase.from("items").insert(input);
   if (error) throw error;
 }

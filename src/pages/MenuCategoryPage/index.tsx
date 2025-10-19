@@ -13,7 +13,7 @@ import {
 } from "@heroicons/react/16/solid";
 import { useAppSelector } from "../../app/hooks";
 import { selectCartQuantity } from "../../features/cart/cart.selectors";
-import type { ItemType } from "../../entities/category/types";
+import type { ItemType } from "../../entities/types";
 
 /* const CLOSED_TOAST_ID = "store-closed"; */
 const Index = () => {

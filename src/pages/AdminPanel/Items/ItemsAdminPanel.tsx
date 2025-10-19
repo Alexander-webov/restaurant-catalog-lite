@@ -1,4 +1,4 @@
-import type { ItemType } from "../../../entities/category/types";
+import type { ItemType } from "../../../entities/types";
 
 type Props = {
   item: ItemType;

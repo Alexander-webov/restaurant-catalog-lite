@@ -14,3 +14,11 @@ export type ItemType = {
   image: string | null;
   price_cents: number;
 };
+
+export type NewItemInput = {
+  name: string;
+  slug: string;
+  description: string | null;
+  image: string | null;
+  price_cents: number;
+};

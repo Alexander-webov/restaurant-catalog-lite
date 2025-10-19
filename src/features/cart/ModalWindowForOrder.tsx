@@ -1,10 +1,11 @@
 import { XCircleIcon } from "@heroicons/react/16/solid";
 import fallback from "../../assets/empty.png";
-import type { ItemType } from "../../pages/MenuCategoryPage";
+
 import { useAppDispatch } from "../../app/hooks";
 import { add } from "./cartSlice";
 import { useState } from "react";
 import { fromCentsToDollars } from "../../shared/lib/money";
+import type { ItemType } from "../../entities/types";
 
 type modalProps = {
   setClose: (value: boolean) => void;

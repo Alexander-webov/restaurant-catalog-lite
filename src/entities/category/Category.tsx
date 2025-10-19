@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import fallback from "../../assets/empty.png";
-import type { CategoryType } from "./types";
+import type { CategoryType } from "../types";
 
 type Props = {
   category: CategoryType;
